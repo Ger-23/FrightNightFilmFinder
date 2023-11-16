@@ -30,7 +30,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['fnff-app.herokuaapp.com', 'localhost', '8000-ger-23-frightnightfilmfi-g7yzgvpocs.us2.codeanyapp.com', 'fnff-app-762333af5e41.herokuapp.com']
+ALLOWED_HOSTS = ['fnff-app.herokuaapp.com', 'localhost', '8000-ger-23-frightnightfilmfi-g7yzgvpocs.us2.codeanyapp.com', 'fnff-app-762333af5e41.herokuapp.com', 'fnff-app-762333af5e41.herokuapp.com']
 
 
 # Application definition
