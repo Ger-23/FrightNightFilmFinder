@@ -36,6 +36,9 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'about' %}">About Us</a>
+                    </li>
                     {% if user.is_authenticated %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'account_logout' %}">Logout</a>
@@ -50,7 +53,7 @@
                     {% endif %}
                 </ul>
                 <span class="navbar-text text-muted">
-                    Register with us and have your say on this selection of chilling titles!
+                    Join us and have your say on this selection of chilling titles, if you dare!
                 </span>
             </div>
         </div>
@@ -78,7 +81,7 @@
     <!-- Footer -->
     <footer class="footer mt-auto py-3 dark-bg">
         <p class="m-0 text-center text-white">Made by Code Instituters</p>
-        <p class="m-0 text-center text-white">Follow us: ,<a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook-square ms-3"></i></a>
+        <p class="m-0 text-center text-white">Follow us: <a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook-square ms-3"></i></a>
             <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter-square ms-3"></i></a>
             <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram-square ms-3"></i></a>
             <a href="https://youtube.com" target="_blank"><i class="fab fa-youtube-square ms-3"></i></p></a>
