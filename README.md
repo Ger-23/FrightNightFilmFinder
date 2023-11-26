@@ -4,3 +4,7 @@ This is my fourth milestone project with Code Institute. It is a blog for people
 
 [Click here to go to my live project](https://fnff-app-762333af5e41.herokuapp.com/)
 
+## Credit
+
+- I Think Therefore I Blog Walkthrough for code and structure
+- Mentor & Code Institute Tutors for guidance
