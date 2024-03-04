@@ -29,12 +29,12 @@ TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 X_FRAME_OPTIONS = 'SAME_ORIGIN'
 
 ALLOWED_HOSTS = ['fnff-app.herokuaapp.com', 'localhost', '8000-ger-23-frightnightfilmfi-g7yzgvpocs.us2.codeanyapp.com', 'fnff-app-762333af5e41.herokuapp.com', 
-'fnff-app-762333af5e41.herokuapp.com', '8001-ger-23-frightnightfilmfi-g7yzgvpocs.us2.codeanyapp.com']
+'fnff-app-762333af5e41.herokuapp.com', '8001-ger-23-frightnightfilmfi-g7yzgvpocs.us2.codeanyapp.com', '8000-ger-23-frightnightfilmfi-92y3zudi2w.us1.codeanyapp.com']
 
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 
@@ -117,7 +117,7 @@ WSGI_APPLICATION = 'FNFF.wsgi.application'
 
 DATABASES = {
      'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
- }
+}
 
 
 # Password validation
