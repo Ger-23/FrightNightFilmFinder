@@ -34,7 +34,7 @@ DEBUG = True
 X_FRAME_OPTIONS = 'SAME_ORIGIN'
 
 ALLOWED_HOSTS = ['fnff-app.herokuaapp.com', 'localhost', '8000-ger-23-frightnightfilmfi-g7yzgvpocs.us2.codeanyapp.com', 'fnff-app-762333af5e41.herokuapp.com', 
-'fnff-app-762333af5e41.herokuapp.com', '8001-ger-23-frightnightfilmfi-g7yzgvpocs.us2.codeanyapp.com', '8000-ger-23-frightnightfilmfi-92y3zudi2w.us1.codeanyapp.com']
+'fnff-app-762333af5e41.herokuapp.com', '8001-ger-23-frightnightfilmfi-g7yzgvpocs.us2.codeanyapp.com', '8000-ger-23-frightnightfilmfi-92y3zudi2w.us1.codeanyapp.com', '8000-ger23-frightnightfilmf-jyk73a6gnlz.ws-eu110.gitpod.io']
 
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 
