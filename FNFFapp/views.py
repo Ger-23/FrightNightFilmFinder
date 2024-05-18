@@ -1,9 +1,9 @@
-from django.shortcuts import render, get_object_or_404, reverse
+from django.shortcuts import render, get_object_or_404, reverse, redirect
 from django.views import generic, View
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponseBadRequest
 from .models import Post, TeamMember
-from .forms import CommentForm
-
+from .forms import CommentForm, PostForm
+    
 
 class PostList(generic.ListView):
     model = Post
@@ -83,3 +83,37 @@ class TeamMemberDetails(generic.ListView):
     context_object_name = 'team_members'
 
 
+def post_edit(request, slug):
+    post = get_object_or_404(Post, slug=slug)
+    if request.method == 'POST':
+        form = PostForm(request.POST, instance=post)
+        if form.is_valid():
+            image = request.FILES.get('featured_image')
+            if image:
+                post.featured_image = mage
+            form.save()
+            return redirect('post_detail', slug=post.slug)
+    else:
+        form = PostForm(instance=post)
+    return render(request, 'post_edit.html', {'form': form})
+
+
+def post_delete(request, slug):
+            post = get_object_or_404(Post, slug=slug)
+            post.delete()
+            return redirect('home')
+
+
+def post_add(request):
+    if request.method == 'POST':
+        form = PostForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.instance.author = request.user
+            image = request.FILES.get('featured_image')
+            if image:
+                form.featured_image = image
+            form.save()
+            return redirect("post_detail", slug=form.instance.slug)
+    else:
+        form = PostForm()
+    return render(request, 'post_add.html', {'form': form}) 

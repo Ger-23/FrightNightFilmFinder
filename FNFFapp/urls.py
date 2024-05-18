@@ -5,6 +5,9 @@ from .views import TeamMemberDetails
 urlpatterns = [
     path('', views.PostList.as_view(), name='home'),
     path('about/', TeamMemberDetails.as_view(), name='about'),
+    path('add/', views.post_add, name='post_add'),
     path('<slug:slug>/', views.PostDetail.as_view(), name='post_detail'),
     path('like/<slug:slug>', views.PostLike.as_view(), name='post_like'),
+    path('<slug:slug>/edit/', views.post_edit, name='post_edit'),
+    path('<slug:slug>/delete/', views.post_delete, name='post_delete'),
 ]
