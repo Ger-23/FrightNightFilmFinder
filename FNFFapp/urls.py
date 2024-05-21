@@ -11,3 +11,8 @@ urlpatterns = [
     path('<slug:slug>/edit/', views.post_edit, name='post_edit'),
     path('<slug:slug>/delete/', views.post_delete, name='post_delete'),
 ]
+
+handler403 = "FNFFapp.views.handler403"
+handler404 = "FNFFapp.views.handler404"
+handler405 = "FNFFapp.views.handler405"
+handler500 = "FNFFapp.views.handler500"
