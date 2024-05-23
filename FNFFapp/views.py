@@ -1,6 +1,8 @@
 from django.shortcuts import render, get_object_or_404, reverse, redirect
 from django.views import generic, View
 from django.http import HttpResponseRedirect, HttpResponseBadRequest, HttpResponseNotFound, HttpResponseForbidden, HttpResponseNotAllowed, HttpResponseServerError
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Post, TeamMember
 from .forms import CommentForm, PostForm
     
@@ -12,7 +14,7 @@ class PostList(generic.ListView):
     paginate_by = 6
 
 
-class PostDetail(View):
+class PostDetail(LoginRequiredMixin, View):
 
     def get(self, request, slug, *args, **kwargs):
         queryset = Post.objects.filter(status=1)
@@ -34,38 +36,43 @@ class PostDetail(View):
             },
         )
 
+
+    @login_required
     def post(self, request, slug, *args, **kwargs):
-        queryset = Post.objects.filter(status=1)
-        post = get_object_or_404(queryset, slug=slug)
-        comments = post.comments.filter(approved=True).order_by('created_on')
-        liked = False
-        if post.likes.filter(id=self.request.user.id).exists():
-            liked = True
+        if not request.user.is_staff:
+            raise HttpResponseForbidden("You must be an admin to view this page")
 
-        comment_form = CommentForm(data=request.POST)
-        if comment_form.is_valid():
-            comment_form.instance.email = request.user.email
-            comment_form.instance.name = request.user.username
-            comment = comment_form.save(commit=False)
-            comment.post = post
-            comment.save()
-        else:
-            comment_form = CommentForm()
+            queryset = Post.objects.filter(status=1)
+            post = get_object_or_404(queryset, slug=slug)
+            comments = post.comments.filter(approved=True).order_by('created_on')
+            liked = False
+            if post.likes.filter(id=self.request.user.id).exists():
+                liked = True
 
-        return render(
-            request,
-            'post_detail.html',
-            {
-                'post': post,
-                'comments': comments,
-                'commented': True,
-                'comment_form': comment_form,
-                'liked': liked
-            },
-        )
+            comment_form = CommentForm(data=request.POST)
+            if comment_form.is_valid():
+                comment_form.instance.email = request.user.email
+                comment_form.instance.name = request.user.username
+                comment = comment_form.save(commit=False)
+                comment.post = post
+                comment.save()
+            else:
+                comment_form = CommentForm()
+
+            return render(
+                request,
+                'post_detail.html',
+                {
+                    'post': post,
+                    'comments': comments,
+                    'commented': True,
+                    'comment_form': comment_form,
+                    'liked': liked
+                },
+            )
 
 
-class PostLike(View):
+class PostLike(LoginRequiredMixin, View):
 
     def post(self, request, slug, *args, **kwargs):
         post = get_object_or_404(Post, slug=slug)
@@ -83,7 +90,11 @@ class TeamMemberDetails(generic.ListView):
     context_object_name = 'team_members'
 
 
+@login_required
 def post_edit(request, slug):
+    if not request.user.is_staff:
+        raise HttpResponseForbidden("You must be an admin to view this page")
+
     post = get_object_or_404(Post, slug=slug)
     if request.method == 'POST':
         form = PostForm(request.POST, instance=post)
@@ -98,25 +109,31 @@ def post_edit(request, slug):
     return render(request, 'post_edit.html', {'form': form})
 
 
+@login_required
 def post_delete(request, slug):
-            post = get_object_or_404(Post, slug=slug)
-            post.delete()
-            return redirect('home')
+    if not request.user.is_staff:
+        raise HttpResponseForbidden("You must be an admin to view this page")
+        post = get_object_or_404(Post, slug=slug)
+        post.delete()
+        return redirect('home')
 
 
+@login_required
 def post_add(request):
-    if request.method == 'POST':
-        form = PostForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.instance.author = request.user
-            image = request.FILES.get('featured_image')
-            if image:
-                form.featured_image = image
-            form.save()
-            return redirect("post_detail", slug=form.instance.slug)
-    else:
-        form = PostForm()
-    return render(request, 'post_add.html', {'form': form}) 
+        if not request.user.is_staff:
+            raise HttpResponseForbidden("You must be an admin to view this page")
+        if request.method == 'POST':
+            form = PostForm(request.POST, request.FILES)
+            if form.is_valid():
+                form.instance.author = request.user
+                image = request.FILES.get('featured_image')
+                if image:
+                    form.featured_image = image
+                form.save()
+                return redirect("post_detail", slug=form.instance.slug)
+        else:
+            form = PostForm()
+        return render(request, 'post_add.html', {'form': form}) 
 
 
 def handler403(request, exception):
