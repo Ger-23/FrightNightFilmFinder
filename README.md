@@ -145,6 +145,10 @@ The application was deployed to Heroku. The steps to deploy are as follows:
 and site data each time for any results but still not loading all images 
 (eg. Python Linter images for views and models, testing on views, models and forms, etc.)
 
+- Issue with database connection which presented when trying to run tests - this line 
+of code was added in env.py - os.environ['DEV'] = "1" - which was hashed out when finished running tests, 
+and this in settings - DEBUG = 'DEV' in os.environ .
+
 
 ## Credit
 
