@@ -86,6 +86,49 @@ and search engine optimisation.
 
 ## Deployment
 
+The application was deployed to Heroku. The steps to deploy are as follows:
+
+  - Login to [Heroku](https://dashboard.heroku.com/apps) dashboard to get an overview of installed apps.
+  - Click on New and Create new app.
+  - Choose a name for your application (must be unique) and enter your location.
+  - Click on Create app.
+  - After creating your new application, navigate and click on the Resources tab.
+  - In the Add-ons search bar enter Heroku Postgres and Select Heroku Postgres.
+  - A pop-up window till appear, choose Plan name Hobby Dev - Free.
+  - Click on Submit order form.
+  - Navigate to the Settings tab and click on Reveal Config Vars.
+  - Copy the DATABASE_URL url value to the clipboard.
+  - In GitPod create a new env.py file on top level directory.
+  - In Heroku navigate to the Settings tab and click on Reveal Config Vars.
+  - Add SECRET_KEY to Config Vars with the randomSecretKey value previously chosen.
+  - In the settings.py file remove the insecure secret key and replace it with: SECRET_KEY = os.environ.get(’SECRET_KEY')
+  - Update to use the DATABASE_URL: dj_database_url.parse(os.environ.get(”DATABASE_URL"))
+  - Save all files and Make Migrations: python3 manage.py migrate
+  - Login to [Cloudinary](https://cloudinary.com/) and navigate to the Cloudinary Dashboard.
+  - Copy your CLOUDINARY_URL API Environment Variable to the clipboard.
+  - In the env.py file add Cloudinary URL
+  - In Heroku navigate to the Settings tab and click on Reveal Config Vars.
+  - Add ’CLOUDINARY_URL’ to Config Vars with the in API Environment Variable value.
+  - Add ’DISABLE_COLLECTSTATIC’ 1 to Heroku Config Vars (temporary, must be removed before final deployment).
+  - In the settings.py file:
+    - Add Cloudinary Libraries to installed apps (note: order is important) ’cloudinary_storage',  ’django.contrib.staticfiles', ’cloudinary',
+    - Add the following code below STATIC_URL = ’/static/' to use Cloudinary to store media and static files:
+      - STATICFILES_STORAGE = ’cloudinary_storage.storage.StaticHashedCloudinaryStorage'
+      - STATICFILES_DIRS = [os.path.join(BASE_DIR, ’static')]
+      - STATIC_ROOT = os.path.join(BASE_DIR, ’staticfiles')
+      - MEDIA_URL = '/media/'
+      - DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+    - Link file to the templates directory in Heroku: TEMPLATES_DIR = os.path.join(BASE_DIR, ’templates')
+    - Change the templates directory to: TEMPLATES_DIR: 'DIRS': [TEMPLATES_DIR],
+    - Add Heroku Hostname to ALLOWED_HOSTS: ALLOWED_HOSTS = [”Your_Project_name.herokuapp.com”, ”localhost”]
+  - Create 3 new folders on top level directory: media, static, templates
+  - Create a Procfile on the top level directory
+  - In the Procfile file:
+    - Add the following code with your project name: web: gunicorn PROJ_NAME.wsgi
+  - In the terminal: Add, Commit and Push.
+  - In Heroku navigate to the Deploy tab and click on Deploy Branch.
+  - When build process is finished click on Open App to visit the live site.
+
 
 ## Future Implementation
 
